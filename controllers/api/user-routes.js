@@ -36,7 +36,7 @@ router.get("/:id", (req, res) => {
 	})
 		.then((dbUserData) => {
 			if (!dbUserData) {
-				res.status(404).json({ message: "No user found with this id" });
+				res.status(404).json({ message: "No user found with this ID!" });
 				return;
 			}
 			res.json(dbUserData);
@@ -70,7 +70,7 @@ router.post("/", (req, res) => {
 });
 
 router.post("/login", (req, res) => {
-	// expects {email: 'lernantino@gmail.com', password: 'password123'}
+	// expects {email: 'lernantino@gmail.com', password: 'password1234'}
 	User.findOne({
 		where: {
 			username: req.body.username,
@@ -99,7 +99,7 @@ router.post("/login", (req, res) => {
 });
 
 router.post("/signup", async (req, res) => {
-	// expects {email: 'lernantino@gmail.com', password: 'password123'}
+	// expects {email: 'lernantino@gmail.com', password: 'password1234'}
 	var newUser = new User({
 		username: req.body.username,
 		email: req.body.email,
@@ -142,9 +142,6 @@ router.post("/logout", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-	// expects {username: 'Lernantino', email: 'lernantino@gmail.com', password: 'password1234'}
-
-	// pass in req.body instead to only update what's passed through
 	User.update(req.body, {
 		individualHooks: true,
 		where: {
@@ -153,7 +150,7 @@ router.put("/:id", (req, res) => {
 	})
 		.then((dbUserData) => {
 			if (!dbUserData) {
-				res.status(404).json({ message: "No user found with this id" });
+				res.status(404).json({ message: "No user found with this ID!" });
 				return;
 			}
 			res.json(dbUserData);
@@ -172,7 +169,7 @@ router.delete("/:id", (req, res) => {
 	})
 		.then((dbUserData) => {
 			if (!dbUserData) {
-				res.status(404).json({ message: "No user found with this id" });
+				res.status(404).json({ message: "No user found with this ID!" });
 				return;
 			}
 			res.json(dbUserData);

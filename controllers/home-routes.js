@@ -2,7 +2,9 @@ const router = require("express").Router();
 const sequelize = require("../config/connection");
 const { Post, User, Comment } = require("../models");
 
+// GET all posts
 router.get("/", (req, res) => {
+	console.log("======================");
 	Post.findAll({
 		attributes: ["id", "title", "description", "created_at"],
 		include: [
@@ -21,10 +23,8 @@ router.get("/", (req, res) => {
 		],
 	})
 		.then((dbPostData) => {
-			// pass a single post object into the homepage template
-			console.log(dbPostData[0]);
 			const posts = dbPostData.map((post) => post.get({ plain: true }));
-
+			console.log(posts);
 			res.render("homepage", {
 				posts,
 				loggedIn: req.session.loggedIn,
@@ -36,16 +36,7 @@ router.get("/", (req, res) => {
 		});
 });
 
-router.get("/login", (req, res) => {
-	if (req.session.loggedIn) {
-		res.redirect("/");
-		return;
-	}
-
-	res.render("login");
-});
-
-// get single post
+// GET a single post
 router.get("/post/:id", (req, res) => {
 	Post.findOne({
 		where: {
@@ -73,7 +64,6 @@ router.get("/post/:id", (req, res) => {
 				return;
 			}
 
-			// serialize the data
 			const post = dbPostData.get({ plain: true });
 
 			res.render("single-post", {
@@ -85,6 +75,15 @@ router.get("/post/:id", (req, res) => {
 			console.log(err);
 			res.status(500).json(err);
 		});
+});
+
+router.get("/login", (req, res) => {
+	if (req.session.loggedIn) {
+		res.redirect("/");
+		return;
+	}
+
+	res.render("login");
 });
 
 router.get("/signup", (req, res) => {
